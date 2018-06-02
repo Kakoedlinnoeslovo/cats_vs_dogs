@@ -1,8 +1,9 @@
-import tensorflow as tf
+#import tensorflow as tf
 import cv2
 import numpy as np
 from os import listdir
 from os.path import isfile, join
+from random import shuffle
 
 class DataPreporator:
 	def __init__(self, path):
@@ -18,6 +19,7 @@ class DataPreporator:
 		# with tf.Session() as sess:
 		# 	sess.run(tf.global_variables_initializer())
 		files = [f for f in listdir(self.path) if isfile(join(self.path, f))]
+		shuffle(files)
 		for i, file in enumerate(files):
 			im = cv2.imread(self.path + "/" + file)
 
@@ -27,7 +29,7 @@ class DataPreporator:
 			else:
 				labels.append(1)
 
-			im = cv2.resize(im, (128,128), interpolation=cv2.INTER_NEAREST)
+			im = cv2.resize(im, (img_size,img_size), interpolation=cv2.INTER_NEAREST)
 
 			#resized_img = sess.run(tf_img, feed_dict={tf_img: im})
 			X_train.append(im)
